@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>方劉兄食品｜產品一覽</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #fff;
+      font-family: "Noto Sans TC", sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 40px 0;
+    }
+    h1 {
+      color: #FFD700;
+      font-size: 42px;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+    .container {
+      width: 80%;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .card {
+      width: 280px;
+      background-color: #111;
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+      padding: 20px;
+      transition: all 0.2s ease-in-out;
+    }
+    .card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(255, 165, 0, 0.6);
+    }
+    .card img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+    .card h2 {
+      font-size: 24px;
+      margin: 10px 0;
+      color: #FFD700;
+    }
+    .card p {
+      font-size: 20px;
+      margin: 5px 0;
+    }
+    .card button {
+      background-color: #FFD700;
+      color: #000;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      padding: 10px 20px;
+      font-size: 18px;
+      margin-top: 10px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .card button:hover {
+      background-color: orange;
+      transform: scale(1.05);
+    }
+    a.back {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      color: #fff;
+      text-decoration: none;
+      font-size: 20px;
+      font-weight: bold;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: 0.2s;
+    }
+    a.back:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <a class="back" href="/">← 回首頁</a>
+  <h1>方劉兄食品｜產品一覽</h1>
+
+  <div id="product-grid" class="container"></div>
+
+  <script>
+    async function loadProducts() {
+      try {
+        const res = await fetch("/api/products");
+        const json = await res.json();
+        const grid = document.getElementById("product-grid");
+        grid.innerHTML = "";
+
+        json.data.forEach(p => {
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `
+            <img src="${p.image}" alt="${p.name}">
+            <h2>${p.name}</h2>
+            <p>價格：$${p.price}</p>
+            <button onclick="addToCart('${p._id}')">加入購物車</button>
+          `;
+          grid.appendChild(card);
+        });
+      } catch (err) {
+        console.error("載入產品失敗：", err);
+        document.getElementById("product-grid").innerHTML =
+          "<p style='color:red;'>❌ 無法載入產品，請確認伺服器是否啟動。</p>";
+      }
+    }
+
+    async function addToCart(id) {
+      const res = await fetch("/api/cart", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ productId: id, quantity: 1 })
+      });
+      const result = await res.json();
+      alert(result.message || "✅ 已加入購物車！");
+    }
+
+    loadProducts();
+  </script>
+</body>
+</html>

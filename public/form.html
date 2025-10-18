@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <title>方劉兄食品｜表單填寫</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="/styles.css" rel="stylesheet">
+</head>
+<body>
+  <!-- 左上角按鈕：返回 -->
+  <div class="top-left">
+    <a class="btn" href="javascript:history.back()">返回</a>
+  </div>
+
+  <main class="main">
+    <h1>聯絡我們 / 訂單資料</h1>
+
+    <section class="section">
+      <p class="lead">
+        若您已加入購物車，請填寫以下基本資料以便完成結帳流程。
+        我們僅在本次服務中使用您的聯絡資訊，不做任何其他用途。表單字體加大、區塊置中，確保閱讀清楚、填寫舒適。
+      </p>
+    </section>
+
+    <section class="section">
+      <form id="contact-form" class="form">
+        <input id="name" class="input" type="text" placeholder="您的姓名（選填）">
+        <input id="email" class="input" type="email" placeholder="電子郵件（用於接收訂單訊息）" required>
+        <textarea id="message" class="textarea" placeholder="備註或特殊需求（選填）"></textarea>
+        <button class="btn" type="submit">送出 / 結帳</button>
+      </form>
+    </section>
+
+    <section class="section">
+      <a class="btn" href="/">回首頁</a>
+      &nbsp;&nbsp;
+      <a class="btn" href="/products">回到產品頁</a>
+    </section>
+
+    <div class="footer-spacer"></div>
+  </main>
+
+  <script src="/app.js" defer></script>
+</body>
+</html>
