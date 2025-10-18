@@ -98,34 +98,10 @@ app.post('/api/checkout', (req, res) => {
     status: '待處理'
   };
 
+  // ✅ 放在這裡才正確！
+  console.log('🧾 New order created:', order);
+
   memory.orders.push(order);
   memory.cart = memory.cart.filter(c => c.user !== userKey);
   res.json({ ok: true, message: '購買成功', data: order });
-});
-
-app.get('/api/orders', (req, res) => {
-  const user = req.query.user || 'guest';
-  const orders = memory.orders.filter(o => o.user === user);
-  res.json({ ok: true, data: orders });
-});
-
-// 6. 前端靜態檔案 (HTML, CSS, JS)
-const PUBLIC_DIR = path.join(__dirname, 'public');
-app.use(express.static(PUBLIC_DIR));
-
-// 7. 預設導向首頁
-app.get(['/', '/process', '/form'], (req, res) => {
-  const map = {
-    '/': 'index.html',
-    '/process': 'process.html',  // ✅ 這行改成 process
-    '/form': 'form.html'
-  };
-  res.sendFile(path.join(PUBLIC_DIR, map[req.path] || 'index.html'));
-});
-
-
-
-// 8. 啟動伺服器
-app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
