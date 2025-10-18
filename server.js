@@ -114,14 +114,16 @@ const PUBLIC_DIR = path.join(__dirname, 'public');
 app.use(express.static(PUBLIC_DIR));
 
 // 7. 預設導向首頁
-app.get(['/', '/products', '/form'], (req, res) => {
+app.get(['/', '/process', '/form'], (req, res) => {
   const map = {
     '/': 'index.html',
-    '/products': 'products.html',
+    '/process': 'process.html',  // ✅ 這行改成 process
     '/form': 'form.html'
   };
   res.sendFile(path.join(PUBLIC_DIR, map[req.path] || 'index.html'));
 });
+
+
 
 // 8. 啟動伺服器
 app.listen(PORT, () => {
